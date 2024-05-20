@@ -36,10 +36,12 @@ class ChatBotApp:
         self.knowledge_base = load_knowledge_base("Knowledge_base.json")
 
         self.chat_area = scrolledtext.ScrolledText(root, wrap=tk.WORD, bg="#202020", fg="white", font=("Arial", 18))
+        # fill = tk.Both used to fill the screen at both x and y axis when expanded
         self.chat_area.pack(padx=10, pady=(20, 10), fill=tk.BOTH, expand=True)
         self.chat_area.configure(state=tk.DISABLED)
 
         self.user_input = tk.Entry(root, font=("Arial", 16), bg="#202020", fg="white")
+        # fill = tk.X used to fill the screen at the x axis when expanded
         self.user_input.pack(padx=10, pady=5, fill=tk.X)
         self.user_input.bind("<Return>", self.send_message)
         self.user_input.focus_set()  # Set focus to the input area
@@ -47,6 +49,7 @@ class ChatBotApp:
         self.send_button = tk.Button(root, text="Send", command=self.send_message, bg="#3e2d2e", fg="white", font=("Arial", 16), bd=0)
         self.send_button.pack(pady=10)
 
+        # a boolean variable to know when the user is waiting for user answer to a not saved question to know when to show the prompt message
         self.awaiting_answer = False
         self.last_user_question = ""
         self.prompt_message = "... Type your answer here or write skip to skip..."
@@ -56,6 +59,7 @@ class ChatBotApp:
 
         if self.awaiting_answer:
             if user_message.startswith(self.prompt_message):
+                # to get just the input after the prmopt as a user message
                 user_message = user_message[len(self.prompt_message):].strip()
 
             if not user_message:
